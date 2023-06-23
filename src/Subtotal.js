@@ -1,10 +1,12 @@
 import React from "react";
 import "./Subtotal.css";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const Subtotal = () => {
   const cartItems = useSelector((store) => store.cart.items);
-  const total = cartItems?.reduce((amount, item) => item[2] + amount, 0);
+  const total = cartItems?.reduce((amount, item) => item?.price + amount, 0);
+  const history = useHistory();
   return (
     <div className="subtotal">
       <h4>
@@ -16,7 +18,10 @@ const Subtotal = () => {
         <label htmlFor="gift">This item Contains Gift </label>
       </div>
 
-      <button> Proceed to Checkout </button>
+      <button onClick={(e) => history.push("/payment")}>
+        {" "}
+        Proceed to Checkout{" "}
+      </button>
     </div>
   );
 };

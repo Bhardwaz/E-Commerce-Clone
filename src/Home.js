@@ -1,16 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Home.css";
 import Product from "./Product";
+import {
+  image1,
+  image2,
+  image3,
+  image4,
+  image5,
+  image6,
+  image7,
+  image8,
+  image9,
+} from "./utils/homeImages";
 
 const Home = () => {
+  const images = [
+    image1,
+    image2,
+    image3,
+    image4,
+    image5,
+    image6,
+    image7,
+    image8,
+    image9,
+  ];
+  const [index, setIndex] = useState(4);
+  const prev = () => {
+    if (index === 0) {
+      setIndex(images.length - 1);
+    } else {
+      setIndex(index - 1);
+    }
+  };
+  const next = () => {
+    if (index === images.length - 1) {
+      setIndex(0);
+    } else {
+      setIndex(index + 1);
+    }
+  };
   return (
     <div className="home">
       <div className="home__container">
-        <img
-          className="home__image"
-          src="https://images-eu.ssl-images-amazon.com/images/G/02/digital/video/merch2016/Hero/Covid19/Generic/GWBleedingHero_ENG_COVIDUPDATE__XSite_1500x600_PV_en-GB._CB428684220_.jpg"
-          alt=""
-        />
+        <div className="home__image_container">
+          <img className="home__image" src={images[index]} alt="home_image" />
+        </div>
+        <button className="home__left-button" onClick={() => prev()}>
+          {" "}
+          &larr;{" "}
+        </button>
+        <button
+          className="home__right-button"
+          onClick={() => {
+            next();
+          }}
+        >
+          {" "}
+          &rarr;{" "}
+        </button>
 
         <div className="home__row">
           <Product

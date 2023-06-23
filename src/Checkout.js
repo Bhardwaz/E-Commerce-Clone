@@ -3,6 +3,7 @@ import "./Checkout.css";
 import Subtotal from "./Subtotal";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItem, clearCart } from "./utils/cartSlice";
+import FlipMove from "react-flip-move";
 
 const Checkout = () => {
   const cartItems = useSelector((store) => store.cart.items);
@@ -12,6 +13,7 @@ const Checkout = () => {
     dispatch(removeItem({ id }));
   };
   const handleClear = () => dispatch(clearCart());
+
   return (
     <div className="checkout">
       <div className="checkout__left">
@@ -34,23 +36,32 @@ const Checkout = () => {
             </button>
           </div>
           {cartItems.map((item) => {
-            const [title, image, price, rating, id] = item;
+            const { title, image, price, rating, id } = item;
             return (
-              <div className="checkout__item" key={id}>
-                <img className="checkout__itemImage" src={image} alt="image_" />
-                <div className="checkout__itemInfo">
-                  <h3> {title} </h3>
-                  <h2> {price} </h2>
-                  <div className="checkout__itemRating">
-                    {Array(rating)
-                      .fill()
-                      .map((_, i) => (
-                        <p key={i}>🌟</p>
-                      ))}
+              <FlipMove>
+                <div className="checkout__item" key={id}>
+                  <img
+                    className="checkout__itemImage"
+                    src={image}
+                    alt="image_"
+                  />
+                  <div className="checkout__itemInfo">
+                    <h3> {title} </h3>
+                    <h2> {price} </h2>
+                    <div className="checkout__itemRating">
+                      {Array(rating)
+                        .fill()
+                        .map((_, i) => (
+                          <p key={i}>🌟</p>
+                        ))}
+                    </div>
+                    <button onClick={() => handleRemoveItem(id)}>
+                      {" "}
+                      Remove{" "}
+                    </button>
                   </div>
-                  <button onClick={() => handleRemoveItem(id)}> Remove </button>
                 </div>
-              </div>
+              </FlipMove>
             );
           })}
         </div>

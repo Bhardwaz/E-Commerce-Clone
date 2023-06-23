@@ -4,9 +4,20 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { auth } from "./firebase";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "./utils/authSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const cartItems = useSelector((store) => store.cart.items);
+  const user = useSelector((store) => store.auth.user);
+  const handleAuth = () => {
+    if (user) {
+      auth.signOut();
+      dispatch(logoutUser());
+    }
+  };
   return (
     <div className="header">
       <Link to={"/"}>
@@ -23,10 +34,17 @@ const Header = () => {
       </div>
 
       <div className="header__nav">
-        <div className="header__option">
-          <span className="header__optionLineOne">Hello Guest</span>
-          <span className="header__optionLineTwo">Sign In</span>
-        </div>
+        <Link to="/login">
+          <div onClick={handleAuth} className="header__option">
+            <span className="header__optionLineOne">
+              Hello {user.length ? user[0].user.email : "Guest"}
+            </span>
+            <span className="header__optionLineTwo">
+              {" "}
+              {user.length ? "Sign Out" : "Sign In"}{" "}
+            </span>
+          </div>
+        </Link>
 
         <div className="header__option">
           <span className="header__optionLineOne">Returns</span>

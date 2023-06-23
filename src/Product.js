@@ -4,11 +4,19 @@ import { useDispatch } from "react-redux";
 import { addItem } from "./utils/cartSlice";
 
 const Product = ({ title, image, price, rating, id }) => {
-  const info = [title, image, price, rating, id];
+  const info = {
+    title: title,
+    image: image,
+    price: price,
+    rating: rating,
+    id: id,
+  };
+
   const dispatch = useDispatch();
   const handleAddItem = (info) => {
     dispatch(addItem(info));
   };
+
   return (
     <div className="product">
       <div className="product__info">
